@@ -1,0 +1,23 @@
+volumes:
+  db-data:
+    external:
+      name: mongo-db-react-shopping-cart
+services:
+  db:
+    container_name: mongodb-cart
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - db-data:/data/db
+  web:
+    build: .
+    ports:
+      - "3000:5001"
+    image: react-shopping-cart
+    container_name: doppler-cart
+    init: true
+    depends_on:
+      - db
+    environment:
+      - DOPPLER_TOKEN
